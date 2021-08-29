@@ -22,13 +22,11 @@ public class CapacitorContactsPlugin: CAPPlugin, CNContactPickerDelegate {
 
     @objc func open(_ call: CAPPluginCall) {
         id = call.callbackId
-        call.save()
+        call.keepAlive = true
         DispatchQueue.main.async {
             self.vc = CNContactPickerViewController()
             self.vc!.delegate = self
-            self.bridge?.viewController?.present(self.vc!, animated: true, completion: {
-                    call.resolve();
-                })
+            self.bridge?.viewController?.present(self.vc!, animated: true, completion: nil)
         }
     }
     
