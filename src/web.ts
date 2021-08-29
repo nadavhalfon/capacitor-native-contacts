@@ -9,8 +9,8 @@ export class CapacitorContactsWeb
     console.log('ECHO', options);
     return options;
   }
-  async open(): Promise<Contact[]> {
+  async open(): Promise<{ value: Contact | null }> {
     console.log('Capacitor contacts plugin not supported in web');
-    return [];
+    return {value: null};
   }
 }

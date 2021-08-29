@@ -1,6 +1,6 @@
 export interface CapacitorContactsPlugin {
   echo(options: { value: string }): Promise<{ value: string }>;
-  open(): Promise<{value: Contact}>;
+  open(): Promise<{value: Contact | null}>;
 }
 
 export interface Contact {
