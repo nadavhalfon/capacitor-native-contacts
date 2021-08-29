@@ -1,6 +1,6 @@
 {
   "name": "@nadavhalfon/capacitor-native-contacts",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Capacitor plugin for picking contact from native contacts list",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorNativeContacts.podspec"
+    "NadavHalfonCapacitorNativeContacts.podspec"
   ],
   "author": "Nadav Halfon",
   "license": "MIT",
