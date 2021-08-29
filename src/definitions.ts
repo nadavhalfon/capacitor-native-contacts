@@ -15,3 +15,5 @@ export interface Contact {
   phoneNumbers: string[];
   emailAddresses: string[]
 }
+
+export const ERROR_NO_PERMISSION = "User denied permission";

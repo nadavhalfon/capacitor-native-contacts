@@ -87,7 +87,7 @@ public class CapacitorContactsPlugin extends Plugin {
 
         for (int result : grantResults) {
             if (result == PackageManager.PERMISSION_DENIED) {
-                savedCall.error(ERROR_NO_PERMISSION);
+                bridge.getSavedCall(callbackID).reject(ERROR_NO_PERMISSION);
                 return;
             }
         }
