@@ -31,17 +31,6 @@ public class CapacitorContactsPlugin: CAPPlugin, CNContactPickerDelegate {
                 })
         }
     }
-
-    @objc func close(_ call: CAPPluginCall) {
-        if vc == nil {
-            call.resolve()
-        }
-        DispatchQueue.main.async {
-            self.bridge!.dismissVC(animated: true) {
-                call.resolve()
-            }
-        }
-    }
     
     func makeContact(_ contact: CNContact) -> JSObject {
         var res = JSObject()
