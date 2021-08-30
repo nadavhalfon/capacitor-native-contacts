@@ -5,6 +5,7 @@ export interface CapacitorContactsPlugin {
 
 export interface Contact {
   identifier?: string;
+  fullName?: string;
   givenName?: string;
   familyName?: string;
   nickname?: string;
