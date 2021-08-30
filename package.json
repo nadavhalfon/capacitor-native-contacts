@@ -1,6 +1,6 @@
 {
   "name": "@nadavhalfon/capacitor-native-contacts",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Capacitor plugin for picking contact from native contacts list",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
