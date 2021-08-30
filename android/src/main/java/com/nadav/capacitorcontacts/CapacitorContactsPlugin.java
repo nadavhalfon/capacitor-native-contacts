@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import androidx.activity.result.ActivityResult;
 
@@ -108,6 +109,7 @@ public class CapacitorContactsPlugin extends Plugin {
                 JSObject contact = readContactData(call);
                 call.resolve(Utils.wrapIntoResult(contact));
             } catch (IOException e) {
+                Log.e("Contact", "Contact read error" , e);
                 JSObject resultJson = new JSObject();
                 resultJson.put("value", null);
                 call.resolve(resultJson);
