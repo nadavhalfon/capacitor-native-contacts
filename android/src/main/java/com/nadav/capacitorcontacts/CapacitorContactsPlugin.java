@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @CapacitorPlugin(
         name = "CapacitorContacts",
@@ -99,16 +101,31 @@ public class CapacitorContactsPlugin extends Plugin {
     @ActivityCallback
     private void contactPickerResult(PluginCall call, ActivityResult result) {
         if (result.getResultCode() == Activity.RESULT_CANCELED) {
+            Toast.makeText(getContext(),
+                    "Contact picker canceled",
+                    Toast.LENGTH_LONG).show();
+
             call.reject("Activity canceled");
         } else {
             if (call == null) {
+                Toast.makeText(getContext(),
+                        "Contact picker call",
+                        Toast.LENGTH_LONG).show();
                 return;
             }
 
             try {
                 JSObject contact = readContactData(call);
+                Toast.makeText(getContext(),
+                        "Contact build " + Objects.requireNonNull(contact).toString(),
+                        Toast.LENGTH_LONG).show();
+
                 call.resolve(Utils.wrapIntoResult(contact));
             } catch (IOException e) {
+                Toast.makeText(getContext(),
+                        "Contact picker error " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+
                 Log.e("Contact", "Contact read error" , e);
                 JSObject resultJson = new JSObject();
                 resultJson.put("value", null);
@@ -134,6 +151,9 @@ public class CapacitorContactsPlugin extends Plugin {
                 List<JSObject> contacts = contactExtractor.getContacts();
 
                 if (contacts.size() == 0) {
+                    Toast.makeText(getContext(),
+                            "No contacts",
+                            Toast.LENGTH_LONG).show();
                     return null;
                 } else {
                     JSObject chosenContact = contacts.get(0);
@@ -157,6 +177,9 @@ public class CapacitorContactsPlugin extends Plugin {
                 }
             }
         }  catch (Exception e) {
+            Toast.makeText(getContext(),
+                    "Error: " + e.getMessage(),
+                    Toast.LENGTH_LONG).show();
             return null;
         }
 
