@@ -72,31 +72,27 @@ public class CapacitorContactsPlugin extends Plugin {
             return;
         }
 
-        bridge.saveCall(call);
-        Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        startActivityForResult(call, contactPickerIntent, "contactPickerResult");
+        showPicker(call);
     }
 
     @PermissionCallback
-    protected void contactsPermissionsCallback(int requestCode, String[] permissions, int[] grantResults) {
-
-        PluginCall savedCall = bridge.getSavedCall(callbackID);
-        if (savedCall == null) {
+    protected void contactsPermissionsCallback(PluginCall call) {
+        if (call == null) {
+            return;
+        }
+    
+        if (getPermissionState(CONTACTS) != PermissionState.GRANTED) {
+            bridge.getSavedCall(callbackID).reject(ERROR_NO_PERMISSION);
             return;
         }
 
-        for (int result : grantResults) {
-            if (result == PackageManager.PERMISSION_DENIED) {
-                bridge.getSavedCall(callbackID).reject(ERROR_NO_PERMISSION);
-                return;
-            }
-        }
+        showPicker(call);
+    }
 
-        switch (requestCode) {
-            case REQUEST_OPEN_CODE:
-                open(savedCall);
-                return;
-        }
+    private void showPicker(PluginCall call) {
+        bridge.saveCall(call);
+        Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        startActivityForResult(call, contactPickerIntent, "contactPickerResult");
     }
 
     @ActivityCallback
@@ -104,19 +100,17 @@ public class CapacitorContactsPlugin extends Plugin {
         if (result.getResultCode() == Activity.RESULT_CANCELED) {
             call.reject("Activity canceled");
         } else {
-            PluginCall savedCall = bridge.getSavedCall(callbackID);
-            if (savedCall == null) {
+            if (call == null) {
                 return;
             }
 
             try {
-                JSObject contact = readContactData(savedCall);
-                savedCall.resolve(Utils.wrapIntoResult(contact));
+                JSObject contact = readContactData(call);
+                call.resolve(Utils.wrapIntoResult(contact));
             } catch (IOException e) {
-                // savedCall.error(ERROR_READ_CONTACT, e);
                 JSObject resultJson = new JSObject();
-                resultJson.put("value", false);
-                savedCall.resolve(resultJson);
+                resultJson.put("value", null);
+                call.resolve(resultJson);
             }
         }
     }
