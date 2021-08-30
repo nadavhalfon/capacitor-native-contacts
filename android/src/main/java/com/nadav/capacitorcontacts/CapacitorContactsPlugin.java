@@ -3,10 +3,8 @@ package com.nadav.capacitorcontacts;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.provider.ContactsContract;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 
@@ -101,31 +99,16 @@ public class CapacitorContactsPlugin extends Plugin {
     @ActivityCallback
     private void contactPickerResult(PluginCall call, ActivityResult result) {
         if (result.getResultCode() == Activity.RESULT_CANCELED) {
-            Toast.makeText(getContext(),
-                    "Contact picker canceled",
-                    Toast.LENGTH_LONG).show();
-
             call.reject("Activity canceled");
         } else {
             if (call == null) {
-                Toast.makeText(getContext(),
-                        "Contact picker call",
-                        Toast.LENGTH_LONG).show();
                 return;
             }
 
             try {
-                JSObject contact = readContactData(call);
-                Toast.makeText(getContext(),
-                        "Contact build " + Objects.requireNonNull(contact).toString(),
-                        Toast.LENGTH_LONG).show();
-
+                JSObject contact = readContactData(call, result.getData());
                 call.resolve(Utils.wrapIntoResult(contact));
             } catch (IOException e) {
-                Toast.makeText(getContext(),
-                        "Contact picker error " + e.getMessage(),
-                        Toast.LENGTH_LONG).show();
-
                 Log.e("Contact", "Contact read error" , e);
                 JSObject resultJson = new JSObject();
                 resultJson.put("value", null);
@@ -134,12 +117,12 @@ public class CapacitorContactsPlugin extends Plugin {
         }
     }
 
-    private JSObject readContactData(PluginCall savedCall) throws IOException {
+    private JSObject readContactData(PluginCall savedCall, Intent intentUri) throws IOException {
         final Map<String, String> projectionMap = getContactProjectionMap(); ////
 
         try {
             ContentQuery contactQuery = new ContentQuery.Builder()
-                    .withUri(bridge.getIntentUri())
+                    .withUri(intentUri.getData())
                     .withProjection(projectionMap)
                     .build();
 
@@ -151,9 +134,6 @@ public class CapacitorContactsPlugin extends Plugin {
                 List<JSObject> contacts = contactExtractor.getContacts();
 
                 if (contacts.size() == 0) {
-                    Toast.makeText(getContext(),
-                            "No contacts",
-                            Toast.LENGTH_LONG).show();
                     return null;
                 } else {
                     JSObject chosenContact = contacts.get(0);
@@ -177,9 +157,6 @@ public class CapacitorContactsPlugin extends Plugin {
                 }
             }
         }  catch (Exception e) {
-            Toast.makeText(getContext(),
-                    "Error: " + e.getMessage(),
-                    Toast.LENGTH_LONG).show();
             return null;
         }
 
