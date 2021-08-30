@@ -56,6 +56,7 @@ open() => any
 | Prop                   | Type                |
 | ---------------------- | ------------------- |
 | **`identifier`**       | <code>string</code> |
+| **`fullName`**         | <code>string</code> |
 | **`givenName`**        | <code>string</code> |
 | **`familyName`**       | <code>string</code> |
 | **`nickname`**         | <code>string</code> |
