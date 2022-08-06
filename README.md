@@ -25,14 +25,14 @@ npx cap sync
 ### echo(...)
 
 ```typescript
-echo(options: { value: string; }) => any
+echo(options: { value: string; }) => Promise<{ value: string; }>
 ```
 
 | Param         | Type                            |
 | ------------- | ------------------------------- |
 | **`options`** | <code>{ value: string; }</code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
 --------------------
 
@@ -40,10 +40,10 @@ echo(options: { value: string; }) => any
 ### open()
 
 ```typescript
-open() => any
+open() => Promise<{ value: Contact | null; }>
 ```
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;{ value: <a href="#contact">Contact</a> | null; }&gt;</code>
 
 --------------------
 
@@ -53,18 +53,18 @@ open() => any
 
 #### Contact
 
-| Prop                   | Type                |
-| ---------------------- | ------------------- |
-| **`identifier`**       | <code>string</code> |
-| **`fullName`**         | <code>string</code> |
-| **`givenName`**        | <code>string</code> |
-| **`familyName`**       | <code>string</code> |
-| **`nickname`**         | <code>string</code> |
-| **`jobTitle`**         | <code>string</code> |
-| **`departmentName`**   | <code>string</code> |
-| **`organizationName`** | <code>string</code> |
-| **`note`**             | <code>string</code> |
-| **`phoneNumbers`**     | <code>{}</code>     |
-| **`emailAddresses`**   | <code>{}</code>     |
+| Prop                   | Type                  |
+| ---------------------- | --------------------- |
+| **`identifier`**       | <code>string</code>   |
+| **`fullName`**         | <code>string</code>   |
+| **`givenName`**        | <code>string</code>   |
+| **`familyName`**       | <code>string</code>   |
+| **`nickname`**         | <code>string</code>   |
+| **`jobTitle`**         | <code>string</code>   |
+| **`departmentName`**   | <code>string</code>   |
+| **`organizationName`** | <code>string</code>   |
+| **`note`**             | <code>string</code>   |
+| **`phoneNumbers`**     | <code>string[]</code> |
+| **`emailAddresses`**   | <code>string[]</code> |
 
 </docgen-api>
