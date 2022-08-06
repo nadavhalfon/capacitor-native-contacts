@@ -29,8 +29,6 @@ public class ContactDataExtractorVisitor implements Visitor<Cursor> {
 
         String currentMimeType = currentDataRecord.getString(PluginContactFields.MIME_TYPE);
 
-        Log.v("HELLO", String.valueOf(currentDataRecord));
-
         if (ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE.equals(currentMimeType)) {
             emailAddresses.put(currentDataRecord.getString(ContactsContract.Contacts.Data.DATA1));
         } else if (ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE.equals(currentMimeType)) {
